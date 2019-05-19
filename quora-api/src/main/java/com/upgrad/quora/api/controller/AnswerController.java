@@ -68,7 +68,7 @@ public class AnswerController {
 
     }
 
-    @RequestMapping(path = "answer/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "answer/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<AnswerDetailsResponse> getAllAnswer(@RequestHeader("authorization") final String authorization, @PathVariable("questionId") final String quesUuid) throws AuthorizationFailedException, InvalidQuestionException {
 
         AnswerEntity ansEntity = ansService.getAllAnswerForQuestion(quesUuid, authorization);
