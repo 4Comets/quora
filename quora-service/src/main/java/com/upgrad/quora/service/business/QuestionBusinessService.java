@@ -65,7 +65,7 @@ public class QuestionBusinessService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public QuestionEntity editQuestion(String questUuid, String token) throws AuthorizationFailedException, InvalidQuestionException {
+    public QuestionEntity editQuestion(String questUuid, QuestionEntity questionEntity, String token) throws AuthorizationFailedException, InvalidQuestionException {
 
         UserAuthEntity userAuth = userDao.getUserAuthByToken(token);
         if (userAuth == null) {
@@ -76,16 +76,17 @@ public class QuestionBusinessService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to edit the question");
         }
 
-        QuestionEntity questionEntity = questionDao.getQuestionByUuid(questUuid);
+        QuestionEntity currentquestionEntity = questionDao.getQuestionByUuid(questUuid);
 
-        if (questionEntity == null) {
+        if (currentquestionEntity == null) {
             throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
         }
 
-        if (!questionEntity.getUser().getUuid().equals(userAuth.getUser().getUuid())) {
+        if (!currentquestionEntity.getUser().getUuid().equals(userAuth.getUser().getUuid())) {
             throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
         }
-        return questionDao.editQuestion(questionEntity);
+        currentquestionEntity.setContent(questionEntity.getContent());
+        return questionDao.editQuestion(currentquestionEntity);
 
     }
 
