@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
             ,
             @NamedQuery(name = "userByEmailId", query = "select u from UserEntity u where u.email=:email")
             ,
-             @NamedQuery(name = "userByUuid", query = "select u from UserEntity u where u.uuid=:uuid")
+             @NamedQuery(name = "userByUuid", query = "select us from UserEntity us where us.uuid=:userUuid")
         }
 )
 public class UserEntity implements Serializable {
@@ -87,7 +87,7 @@ public class UserEntity implements Serializable {
     @Size(max = 30)
     private String contactNumber;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<QuestionEntity> questionList = new ArrayList();
 
     public Integer getId() {

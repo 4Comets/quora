@@ -88,7 +88,7 @@ public class QuestionController {
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setContent(questionEditRequest.getContent());
         questionEntity.setDate(LocalDateTime.now());
-        QuestionEntity editedQuestion = questionBusinessService.editQuestion(questionId, authorization);
+        QuestionEntity editedQuestion = questionBusinessService.editQuestion(questionId, questionEntity, authorization);
         QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(editedQuestion.getUuid()).status("QUESTION EDITED");
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
 
